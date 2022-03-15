@@ -2,7 +2,24 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
 const cors = require('cors')
+const mongoose = require("mongoose");
 const app = express()
+
+// Connect to MongoDB Atlas
+mongoose.connect(
+    `mongodb+srv://root:sMxQb3iUmpwO1SzR@csc2008databasesystems.xz41z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, 
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
+);
+
+// Check if connection is successful
+const mongoDb = mongoose.connection;
+mongoDb.on("error", console.error.bind(console, "connection error: "));
+mongoDb.once("open", function () {
+  console.log("Connected successfully");
+});
 
 // Setup MySQL database connection
 const db = mysql.createPool({
