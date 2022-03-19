@@ -7,7 +7,7 @@ const app = express()
 
 // Connect to MongoDB Atlas
 mongoose.connect(
-    `mongodb+srv://root:sMxQb3iUmpwO1SzR@csc2008databasesystems.xz41z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, 
+    `mongodb+srv://root:sMxQb3iUmpwO1SzR@csc2008databasesystems.xz41z.mongodb.net/CSC2008Database?retryWrites=true&w=majority`, 
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
