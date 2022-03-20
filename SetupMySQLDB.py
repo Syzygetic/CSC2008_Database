@@ -1,16 +1,5 @@
-import numpy
-import mysql.connector
 import pandas
-
-def dbConnect():
-    ##Setup mySQL database connection
-    db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "password",
-    database = "csc2008project"
-    )
-    return db
+from DBConnect import Database
 
 def cleanDataset():
     ##Read data from CSV file
@@ -47,10 +36,8 @@ def saveDataset(filename):
     #Save a cleaned dataset to CSV
     strokeDataset.to_csv(filename)
 
-def csvToDatabase(db, strokeDataset):
+def csvToDatabase(strokeDataset):
     try:
-        #Setup database cursor
-        dbCursor = db.cursor()
         ##Drop table if exist
         ifExistQuery = "DROP TABLE IF EXISTS strokedataset"
         dbCursor.execute(ifExistQuery)
@@ -63,15 +50,20 @@ def csvToDatabase(db, strokeDataset):
             dbCursor.execute(insertQuery, (row['gender'],row['age'],row['hypertension'],row['heart_disease'],row['ever_married'],row['work_type'],row['Residence_type'],row['avg_glucose_level'],row['bmi'],row['smoking_status'],row['stroke']))
         removeBadDataQuery = "DELETE FROM strokedataset WHERE gender=99 OR bmi=99 OR smoking_status=99"
         dbCursor.execute(removeBadDataQuery)
-        db.commit()
         print("DB insertion successful")
     except:
         print("DB insertion unsuccessful")
 
-db = dbConnect()
-strokeDataset = cleanDataset()
-# saveDataset('StrokeDataset.csv')
-csvToDatabase(db, strokeDataset)
+
+if __name__ == "__main__":
+    db = Database()
+    db.dbConnect()
+    dbCursor = db.getCursor()
+    strokeDataset = cleanDataset()
+    # saveDataset('StrokeDataset.csv')
+    csvToDatabase(strokeDataset)
+    db.dbCommit()
+    db.closeConnection()
 
 
 
