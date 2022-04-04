@@ -14,6 +14,8 @@ function App() {
   const [avg_glucose, setAverageGlucose] = useState('')
   const [bmi, setBMI] = useState('')
   const [smoking_status, setSmokingStatus] = useState('')
+  const [queryType, setQueryType] = useState('')
+  const [inputValid, setInputValid] = useState(false)
 
   const [strokeDataList, setStrokeDataList] = useState([])
   const [mlStrokeResult, setMLStrokeResult] = useState('')
@@ -39,6 +41,7 @@ function App() {
       bmi: bmi,
       smoking_status: smoking_status
     }).then((response) => {
+      console.log(response)
       if (response.data == 0) {
         setMLStrokeResult("Low Chance of Stroke")
       }
@@ -47,6 +50,79 @@ function App() {
       }
     });
   };
+
+  const beginQuery = () =>{
+    checkInputValid()
+    if(inputValid){
+      if(queryType === '1'){
+        submitCheck()
+        return
+      }
+
+      if(queryType === '0'){
+        console.log("Perform Mongo Query")
+        return
+      }
+
+      return
+    }
+    setMLStrokeResult('Invalid Inputs, Please check again')
+  };
+
+  const checkInputValid = () =>{
+    if(gender === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(age === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(hypertension === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(heart_disease === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(ever_married === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(work_type === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(residence_type === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(avg_glucose === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(bmi === ''){
+      setInputValid(false)
+      return
+    }
+
+    if(smoking_status === ''){
+      setInputValid(false)
+      return
+    }
+
+    setInputValid(true)
+    return
+  }
 
   return (
     <div className="App">
@@ -253,7 +329,27 @@ function App() {
           /> Smokes
         </div>
 
-        <button onClick={submitCheck}>Check</button>
+        <label>Select Query Type:</label>
+        <div className='queryRadio'>
+          <input
+            type="radio"
+            value="1"
+            name="query_type"
+            onChange={(e) => {
+              setQueryType(e.target.value);
+            }}
+          /> Releational
+          <input
+            type="radio"
+            value="0"
+            name="query_type"
+            onChange={(e) => {
+              setQueryType(e.target.value);
+            }}
+          /> Non-relational
+        </div>
+
+        <button onClick={beginQuery}>Check</button>
 
         <h4>
           Check Result: {mlStrokeResult}
