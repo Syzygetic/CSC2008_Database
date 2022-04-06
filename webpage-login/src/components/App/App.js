@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
 import Login from '../Login/Login';
 import Preferences from '../Preferences/Preferences';
 import useToken from './useToken';
+import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 
 function App() {
@@ -18,6 +20,11 @@ function App() {
   return (
     <div className="wrapper">
       <h1>Application</h1>
+      Access Dashboard here:&nbsp; 
+        <a href="http://localhost:3000/Dashboard">
+            Dashboard
+        </a>
+      {/* <Link to="/Dashboard" className="btn btn-primary">Go to Dashboard</Link> */}
       <BrowserRouter>
         <Routes>
           <Route path="/Dashboard" element={<Dashboard/>}>
@@ -28,6 +35,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      {/* <NavLink to="/Dashboard">Dashboard</NavLink> */}
     </div>
   );
 }
