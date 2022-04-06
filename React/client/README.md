@@ -1,4 +1,26 @@
-# Getting Started with Create React App
+# How to Run
+In Terminal 1, run:
+
+```
+cd webpage-login
+node server.js
+```
+
+This is to start a local server
+
+In Terminal 2, run:
+
+```
+webpage-login
+npm start
+```
+
+Available pages are:\
+[http://localhost:3000](http://localhost:3000)\
+[http://localhost:3000/dashboard](http://localhost:3000/dashboard)\
+[http://localhost:3000/login](http://localhost:3000/login)
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

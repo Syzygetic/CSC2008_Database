@@ -15,19 +15,19 @@ class Database:
         if database:
             self.database = database
         ##Setup mySQL database connection
-        try:
-            db = mysql.connector.connect(
-                host = self.host,
-                user = self.user,
-                passwd = self.passwd,
-                database = self.database,
-                auth_plugin = 'mysql_native_password'
-            )
-            ##print("Database connection successful")
-            self.db = db
-            self.cursor = self.db.cursor()
-        except:
-            print("Database connection unsuccessful, please try again")
+        # try:
+        db = mysql.connector.connect(
+            host = self.host,
+            user = self.user,
+            passwd = self.passwd,
+            database = self.database,
+            auth_plugin = 'mysql_native_password'
+        )
+        ##print("Database connection successful")
+        self.db = db
+        self.cursor = self.db.cursor()
+        # except:
+            # print("Database connection unsuccessful, please try again")
         ##except Exception as e:
             ##print(e)
 
