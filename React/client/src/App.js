@@ -42,11 +42,11 @@ function App() {
       smoking_status: smoking_status
     }).then((response) => {
       console.log(response)
-      if (response.data == 0) {
-        setMLStrokeResult("Low Chance of Stroke")
+      if (response.data[0] == 0) {
+        setMLStrokeResult(`Low Chance of Stroke, time taken: ${response.data[1]}ms`)
       }
-      else if (response.data == 1) {
-        setMLStrokeResult("Possible Chance of Stroke")
+      else if (response.data[0] == 1) {
+        setMLStrokeResult(`Possible Chance of Stroke, time taken: ${response.data[1]}ms`)
       }
     });
   };

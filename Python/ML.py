@@ -3,6 +3,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn import tree
+from datetime import datetime
 import sys
 
 class MachineLearning:
@@ -39,9 +40,12 @@ if __name__ == "__main__":
     # Connect to database to get input/output data for testing and training
     db = Database()
     db.dbConnect()
+    startTime = datetime.now()
     inputData = db.getDatasetInput()
     outputData = db.getDatasetOutput()
+    endTime = datetime.now()
     db.closeConnection()
+    timeTaken = endTime - startTime
 
     # Training of ML model
     ml = MachineLearning(inputData,outputData,0.2)
@@ -68,5 +72,5 @@ if __name__ == "__main__":
     predictResult = ml.predict([[gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status]])
     
     # Removing Array Brackets to get Stroke Result data
-    strokeResult = int(str(predictResult)[1:-1])
+    strokeResult = [int(str(predictResult)[1:-1]), timeTaken.microseconds]
     print(strokeResult)
