@@ -1,3 +1,4 @@
+from black import out
 from pandas import DataFrame
 import pymongo
 from sklearn.tree import DecisionTreeClassifier
@@ -44,9 +45,9 @@ if __name__ == "__main__":
     startTime = datetime.now()
     inputData = db.StrokeDataset.find({}, {'_id':0, 'stroke':0})
     outputData = db.StrokeDataset.find({}, {'_id':0, 'stroke':1})
-    endTime = datetime.now()
     inputData = DataFrame(inputData)
     outputData = DataFrame(outputData)
+    endTime = datetime.now()
     timeTaken = endTime - startTime
 
     # Training of ML model
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     # print(ml.getAccuracyTestingSet())
     
     # Predicting results/output of new input data
-    predictResult = ml.predict([[1,90,1,0,0,2,0,200.00,30.0,0]])
+    # predictResult = ml.predict([[1,90,1,0,0,2,0,200.00,30.0,0]])
     gender = int(sys.argv[1])
     age = int(sys.argv[2])
     hypertension = int(sys.argv[3])

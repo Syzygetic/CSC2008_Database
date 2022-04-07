@@ -104,6 +104,50 @@ app.post("/api/insert", (req, res) => {
     );
 });
 
+app.post("/api/mongoinsert", (req, res) => {
+
+    const gender = req.body.gender;
+    const age = req.body.age;
+    const hypertension = req.body.hypertension;
+    const heart_disease = req.body.heart_disease;
+    const ever_married = req.body.ever_married;
+    const work_type = req.body.work_type;
+    const residence_type = req.body.residence_type;
+    const avg_glucose = req.body.avg_glucose;
+    const bmi = req.body.bmi;
+    const smoking_status = req.body.smoking_status;
+
+    async function spawnMongoChild() {
+        // Spawning a Child Process to run the Machine Learning Python Script
+        const { spawn } = require('child_process');
+        const child = spawn('python', ["../../Python/MongoML.py", gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status]);
+    
+        let data = "";
+        for await (const chunk of child.stdout) {
+            console.log('stdout chunk: '+chunk);
+            data += chunk;
+        }
+        let error = "";
+        for await (const chunk of child.stderr) {
+            console.error('stderr chunk: '+chunk);
+            error += chunk;
+        }
+        const exitCode = await new Promise( (resolve, reject) => {
+            child.on('close', resolve);
+        });
+    
+        if( exitCode) {
+            throw new Error( `subprocess error exit ${exitCode}, ${error}`);
+        }
+        return data;
+    }
+    spawnMongoChild().then(
+        data=>{
+            res.send(data)
+        }
+    )
+});
+
 app.listen(3001, () => {
     console.log("running on port 3001");
 });

@@ -43,6 +43,33 @@ function PredictStroke() {
     });
   };
 
+  const submitMongoCheck = () => {
+    setMLStrokeResult("Checking Possibility, Please hold on ...")
+
+    Axios.post("http://localhost:3001/api/mongoinsert", {
+      gender: gender,
+      age: age,
+      hypertension: hypertension,
+      heart_disease: heart_disease,
+      ever_married: ever_married,
+      work_type: work_type,
+      residence_type: residence_type,
+      avg_glucose: avg_glucose,
+      bmi: bmi,
+      smoking_status: smoking_status
+    }).then((response) => {
+      console.log(response)
+      console.log('break')
+      console.log(response.data[0])
+      if (response.data[0] == 0) {
+        setMLStrokeResult(`Low Chance of Stroke, time taken: ${response.data[1]}ms`)
+      }
+      else if (response.data[0] == 1) {
+        setMLStrokeResult(`Possible Chance of Stroke, time taken: ${response.data[1]}ms`)
+      }
+    });
+  };
+
   const beginQuery = () =>{
     checkInputValid()
     if(inputValid){
@@ -52,7 +79,7 @@ function PredictStroke() {
       }
 
       if(queryType === '0'){
-        console.log("Perform Mongo Query")
+        submitMongoCheck()
         return
       }
 
