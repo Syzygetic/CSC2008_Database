@@ -46,8 +46,8 @@ if __name__ == "__main__":
     inputData = db.StrokeDataset.find({}, {'_id':0, 'stroke':0})
     outputData = db.StrokeDataset.find({}, {'_id':0, 'stroke':1})
     inputData = DataFrame(inputData)
-    outputData = DataFrame(outputData)
     endTime = datetime.now()
+    outputData = DataFrame(outputData)
     timeTaken = endTime - startTime
 
     # Training of ML model

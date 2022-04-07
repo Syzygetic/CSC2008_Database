@@ -14,7 +14,6 @@ function PredictStroke() {
   const [bmi, setBMI] = useState('')
   const [smoking_status, setSmokingStatus] = useState('')
   const [queryType, setQueryType] = useState('')
-  const [inputValid, setInputValid] = useState(false)
 
   const [mlStrokeResult, setMLStrokeResult] = useState('')
 
@@ -71,76 +70,64 @@ function PredictStroke() {
   };
 
   const beginQuery = () =>{
-    checkInputValid()
-    if(inputValid){
+    
+    if(checkInputValid()){
       if(queryType === '1'){
         submitCheck()
         return
       }
-
+  
       if(queryType === '0'){
         submitMongoCheck()
         return
       }
-
-      return
+    }else{
+      setMLStrokeResult('Invalid Inputs, Please check again')
     }
-    setMLStrokeResult('Invalid Inputs, Please check again')
   };
 
   const checkInputValid = () =>{
     if(gender === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(age === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(hypertension === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(heart_disease === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(ever_married === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(work_type === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(residence_type === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(avg_glucose === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(bmi === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
     if(smoking_status === ''){
-      setInputValid(false)
-      return
+      return false
     }
 
-    setInputValid(true)
-    return
+    return true
   }
 
   return (
