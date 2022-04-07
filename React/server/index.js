@@ -43,6 +43,41 @@ app.use(bodyParser.urlencoded({extended: true}))
 //     }); 
 // });
 
+app.post('/register', (req, res)=> {
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    db.query(
+        "INSERT INTO userLogin (userEmail, userPassword) VALUES (?,?)", 
+        [username, password], 
+        (err, result) => {
+            console.log(err);
+        }
+    );
+});
+
+app.post('/login', (req, res)=> {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    db.query(
+        "SELECT * FROM userLogin WHERE userEmail = ? AND userPassword = ?",
+        [username, password],
+        (err, result) => {
+            if (err) {
+                res.send({ err: err });
+            }
+
+            if (result.length > 0) {
+                res.send(result);
+            } else {
+                res.send({ message: "Wrong email/password combination!"});
+            }
+        }
+    );
+});
+
 app.get('/api/get', (req, res) => {
     const sqlSelect = "SELECT * FROM strokedataset;";
     db.query(sqlSelect, (err, result) => {

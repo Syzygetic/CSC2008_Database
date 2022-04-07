@@ -54,11 +54,24 @@ def csvToDatabase(strokeDataset):
     except:
         print("DB insertion unsuccessful")
 
+def userLoginTable():
+    try:
+        ifExistQuery = "DROP TABLE IF EXISTS userLogin"
+        dbCursor.execute(ifExistQuery)
+
+        createTableQuery = "CREATE TABLE IF NOT EXISTS userLogin (userEmail VARCHAR(255) PRIMARY KEY, userPassword VARCHAR(255))"
+        dbCursor.execute(createTableQuery)
+
+        print("DB Table creation successful")
+    except:
+        print("DB Table failed to create")
+
 
 if __name__ == "__main__":
     db = Database()
     db.dbConnect()
     dbCursor = db.getCursor()
+    userLoginTable()
     strokeDataset = cleanDataset()
     saveDataset('StrokeDataset.csv')
     csvToDatabase(strokeDataset)
