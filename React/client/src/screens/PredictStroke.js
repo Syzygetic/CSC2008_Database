@@ -37,6 +37,7 @@ function PredictStroke() {
         setMLStrokeResult(`Low Chance of Stroke, time taken: ${response.data[1]}ms`)
       }
       else if (response.data[0] == 1) {
+        checkPercentage()
         setMLStrokeResult(`Possible Chance of Stroke, time taken: ${response.data[1]}ms`)
       }
     });
@@ -68,6 +69,14 @@ function PredictStroke() {
       }
     });
   };
+
+  const checkPercentage = () => {
+    Axios.get('http://localhost:3001/api/stats').then((response)=>{
+      console.log(response)
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
 
   const beginQuery = () =>{
     

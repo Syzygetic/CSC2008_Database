@@ -52,6 +52,13 @@ app.get('/api/mongoget',(req,res) =>{
     })
 })
 
+app.get('/api/stats', (req,res) =>{
+    const sqlSelect = "SELECT (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND gender = 1)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_gender_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND Age = 60)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_age_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND hypertension = 0)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_hyper_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND heart_disease = 1)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_heart_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND ever_married = 1)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_married_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND work_type = 4)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_work_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND residence_type = 1)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_residence_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND avg_glucose = 99.33)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_glucose_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND bmi = 33.6)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_bmi_percent, (((SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1 AND smoking_status = 2)/(SELECT COUNT(*) FROM csc2008project.strokedataset WHERE stroke = 1)) * 100) AS matched_smoking_percent;";
+    db.query(sqlSelect, (err, result) => {
+        res.send(result);
+    });
+});
+
 app.post("/api/insert", (req, res) => {
 
     const gender = req.body.gender;
@@ -89,11 +96,15 @@ app.post("/api/insert", (req, res) => {
         }
         return data;
     }
-    
     spawnChild().then(
         data=> {
-            var stroke = data
-            
+            data = data.replace('[','')
+            data = data.replace(']','')
+            data = data.replace(' ','')
+            data = data.split(',')
+            var stroke = parseInt(data[0])
+            console.log(data[0])
+            console.log('break')
             const sqlInsert = "INSERT INTO strokedataset (gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status, stroke) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             db.query(sqlInsert,[gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status, stroke], (err, result) => {
                 console.log(result);
@@ -151,3 +162,4 @@ app.post("/api/mongoinsert", (req, res) => {
 app.listen(3001, () => {
     console.log("running on port 3001");
 });
+
