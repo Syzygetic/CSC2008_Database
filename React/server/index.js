@@ -4,22 +4,17 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const mysql = require("mysql");
+const MongoClient = require('mongodb').MongoClient
 
 // MongoDB
-// Connect to MongoDB Atlas
-mongoose.connect(
-    `mongodb+srv://root:sMxQb3iUmpwO1SzR@csc2008databasesystems.xz41z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, 
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }
-);
-// Check if connection is successful
-const mongoDb = mongoose.connection;
-mongoDb.on("error", console.error.bind(console, "connection error: "));
-mongoDb.once("open", function () {
-  console.log("Connected successfully");
-});
+// Connect to MongoDB
+var mongodb
+MongoClient.connect('mongodb://localhost:27017', {useNewUrlParser:true},(error,result) =>{
+    if(error) throw error
+    mongodb = result.db('csc2008project')
+    console.log('MongoDB connection successful')
+})
+
 
 // MySQL
 // Setup MySQL database connection
@@ -50,6 +45,13 @@ app.get('/api/get', (req, res) => {
     });
 });
 
+app.get('/api/mongoget',(req,res) =>{
+    mongodb.collection('StrokeDataset').find({}).toArray((err,result) =>{
+        if(err) throw err
+        res.send(result)
+    })
+})
+
 app.post("/api/insert", (req, res) => {
 
     const gender = req.body.gender;
@@ -66,7 +68,7 @@ app.post("/api/insert", (req, res) => {
     async function spawnChild() {
         // Spawning a Child Process to run the Machine Learning Python Script
         const { spawn } = require('child_process');
-        const child = spawn('python', ["../../Python/ML.py", gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status]);
+        const child = spawn('python', ["../../Python/MySQLML.py", gender, age, hypertension, heart_disease, ever_married, work_type, residence_type, avg_glucose, bmi, smoking_status]);
     
         let data = "";
         for await (const chunk of child.stdout) {
