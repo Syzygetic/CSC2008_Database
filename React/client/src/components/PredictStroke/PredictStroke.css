@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: content;
+}
+
+.form label {
+  font-size: large;
+  font-weight: bold;
+  color: #f1356d;
+}
+
+.form input {
+  height: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-size: 10px;
+}
+
+.genderRadio input {
+    margin-left: 10px;
+}
+
+.hypertensionRadio input {
+    margin-left: 10px;
+}
+
+.heartDiseaseRadio input {
+    margin-left: 10px;
+}
+
+.everMarriedRadio input {
+    margin-left: 10px;
+}
+
+.workTypeRadio input {
+    margin-left: 10px;
+}
+
+.residenceTypeRadio input {
+    margin-left: 10px;
+}
+
+.smokingStatusRadio input {
+    margin-left: 10px;
+}
+
+.queryRadio input {
+    margin-left: 10px;
+}
