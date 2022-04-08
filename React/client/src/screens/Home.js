@@ -1,6 +1,4 @@
 import React, { useMemo, useEffect, useState } from "react";
-import StrokeDataList from "../components/Home/StrokeDataList";
-import useFetch from "../components/General/useFetch";
 import Table from "../components/Home/Table";
 import Axios from 'axios'
 import '../components/Home/Home.css';
@@ -20,8 +18,8 @@ const Home = () => {
     const columns = useMemo(
         () => [
           {
-            // first group - Public Existing Stroke Predition Data
-            Header: "Public Stroke Predition Records",
+            // first group - Public Existing Stroke Prediction Data
+            Header: "Public Stroke Prediction Records",
             // First group columns
             columns: [
               {
@@ -80,9 +78,6 @@ const Home = () => {
 
     return (
         <div className="home">
-            {/* { error && <div>{ error }</div> }
-            { isPending && <div>Loading...</div> }
-            { strokedata && <StrokeDataList strokedata={strokedata} /> } */}
             <Table columns={columns} data={strokeDataList} />
         </div>
     );

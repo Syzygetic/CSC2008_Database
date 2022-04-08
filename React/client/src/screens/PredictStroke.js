@@ -16,8 +16,10 @@ function PredictStroke() {
   const [queryType, setQueryType] = useState('')
 
   const [mlStrokeResult, setMLStrokeResult] = useState('')
+  const [statsResult, setStats] = useState([])
 
   const submitCheck = () => {
+    setStats([])
     setMLStrokeResult("Checking Possibility, Please hold on ...")
 
     Axios.post("http://localhost:3001/api/insert", {
@@ -71,8 +73,19 @@ function PredictStroke() {
   };
 
   const checkPercentage = () => {
-    Axios.get('http://localhost:3001/api/stats').then((response)=>{
-      console.log(response)
+    Axios.get('http://localhost:3001/api/stats', {
+      gender: gender,
+      // age: age,
+      hypertension: hypertension,
+      heart_disease: heart_disease,
+      ever_married: ever_married,
+      work_type: work_type,
+      residence_type: residence_type,
+      // avg_glucose: avg_glucose,
+      // bmi: bmi,
+      smoking_status: smoking_status
+    }).then((response)=>{
+      setStats(response.data)
     }).catch(err =>{
       console.log(err)
     })
@@ -364,9 +377,25 @@ function PredictStroke() {
         <button onClick={beginQuery}>Predict</button>
 
         <h4>
+          <br></br>
           Predict Result: {mlStrokeResult}
         </h4>
-
+        {statsResult.map(val => (
+            <div>
+                <h5>
+                    <br></br>
+                    Weight Statistics (Percentage):
+                    Gender: {val.matched_gender_percent} | 
+                    Hypertension: {val.matched_hyper_percent} | 
+                    Heart Disease: {val.matched_heart_percent} | 
+                    <br></br>
+                    Ever Married: {val.matched_married_percent} | 
+                    Work Type: {val.matched_work_percent} | 
+                    Residence Type: {val.matched_residence_percent} | 
+                    Smoking Status: {val.matched_smoking_percent}
+                </h5>
+            </div>
+        ))}
       </div>
 
     </div>
