@@ -380,7 +380,7 @@ function PredictStroke() {
           <br></br>
           Predict Result: {mlStrokeResult}
         </h4>
-        {statsResult.map(val => (
+        
             <div>
                 <h5>
                     <br></br>

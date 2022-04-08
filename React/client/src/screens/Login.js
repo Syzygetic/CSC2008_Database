@@ -13,6 +13,8 @@ const Login = () => {
 
     const [loginStatus, setLoginStatus] = useState("");
 
+    const [loginUser, setLoginUser] = useState([]);
+
     const register = () => {
         Axios.post('http://localhost:3001/register', {
         username: usernameReg, 
@@ -23,6 +25,8 @@ const Login = () => {
     };
 
     const login = () => {
+        setLoginStatus("")
+        setLoginUser([])
         Axios.post('http://localhost:3001/login', {
         username: username, 
         password: password,
@@ -30,10 +34,9 @@ const Login = () => {
         if (response.data.message) {
             setLoginStatus(response.data.message)
         } else {
-            setLoginStatus(response.data.message[0]);
+            setLoginUser(response.data)
         }
-        
-        });
+        })
     };
 
     return (
@@ -78,8 +81,17 @@ const Login = () => {
             <button onClick={login}> Login </button>
         </div>
 
-        <h1>{loginStatus}</h1>
-        
+        <br></br>
+        <h5>{loginStatus}</h5>
+
+        {loginUser.map(val => (
+            <div>
+                <h5>
+                    Logged in as {val.userEmail}
+                </h5>
+            </div>
+        ))}
+
         </div>
     );
 }

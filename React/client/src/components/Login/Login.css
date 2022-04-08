@@ -27,3 +27,13 @@
     margin-bottom: 20px;
     font-size: 10px;
   }
+
+  .registration h1 {
+    color: #f1356d;
+    margin-top: 50px
+  }
+
+  .login h1 {
+    color: #f1356d;
+    margin-top: 50px
+  }

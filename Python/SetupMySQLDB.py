@@ -3,7 +3,7 @@ from DBConnect import Database
 
 def cleanDataset():
     ##Read data from CSV file
-    data = pandas.read_csv("../Dataset/healthcare-dataset-stroke-data.csv")
+    data = pandas.read_csv("./Dataset/healthcare-dataset-stroke-data.csv")
     data = data.drop(columns=['id'])
     ##Dataset cleaning
     dataFrame = pandas.DataFrame(data)
@@ -34,7 +34,7 @@ def cleanDataset():
 
 def saveDataset(filename):
     #Save a cleaned dataset to CSV
-    strokeDataset.to_csv("../Dataset/"+ filename)
+    strokeDataset.to_csv("./Dataset/"+ filename)
 
 def csvToDatabase(strokeDataset):
     try:
